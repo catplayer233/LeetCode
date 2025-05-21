@@ -2,6 +2,7 @@ package org.catplayer.leetcode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TreeNode {
     public int val;
@@ -40,6 +41,36 @@ public class TreeNode {
             stringBuilder.append(",").append(right);
         }
 
+        return stringBuilder.toString();
+    }
+
+    public String toBreadthString() {
+        var nodes = new ArrayList<TreeNode>();
+        nodes.add(this);
+
+        var stringBuilder = new StringBuilder();
+        for (; ; ) {
+            var refreshNodes = new ArrayList<TreeNode>();
+            for (var node : nodes) {
+                if (node == null) {
+                    stringBuilder.append("null").append(",");
+                    refreshNodes.add(null);
+                    refreshNodes.add(null);
+                } else {
+                    stringBuilder.append(node.val).append(",");
+                    refreshNodes.add(node.left);
+                    refreshNodes.add(node.right);
+                }
+            }
+
+            if (refreshNodes.stream().allMatch(Objects::isNull)) {
+                break;
+            }
+
+            nodes = refreshNodes;
+        }
+
+        stringBuilder.setLength(stringBuilder.length() - 1);
         return stringBuilder.toString();
     }
 
