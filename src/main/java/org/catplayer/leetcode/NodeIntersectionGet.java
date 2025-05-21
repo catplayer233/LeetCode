@@ -1,15 +1,32 @@
 package org.catplayer.leetcode;
 
+import java.util.HashSet;
+
 /**
- * 相交链表
- * <p>
- * 从第 n 个节点开始相交，找出第 n 个节点
+ * <a href="https://leetcode.cn/problems/intersection-of-two-linked-lists/description/?envType=study-plan-v2&envId=top-100-liked">相交链表</a>
  */
 public class NodeIntersectionGet {
 
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        // 相交链表的特点是第 n 个节点开始
+    public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        var listNodes = new HashSet<ListNode>();
 
+        var next = headA;
+        while (next != null) {
+            listNodes.add(next);
+            next = next.next;
+        }
+
+        next = headB;
+
+        while (next != null) {
+            if (listNodes.contains(next)) {
+                return next;
+            }
+
+            next = next.next;
+        }
+
+        // 满足的条件是: headA.next==headB.next
         return null;
     }
 }
