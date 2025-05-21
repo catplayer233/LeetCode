@@ -1,6 +1,7 @@
 package org.catplayer.leetcode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,9 +14,11 @@ public class ThreeSum {
 
         /*
          * [-1,0,1,2,-1,-4]
-         * 两个确定一个
+         * 通过两个即可确定一个
          * 如果当前的已经检索完就不需要再进行检索了，因为结果已经确定了
          * */
+        // 0. sorted, so we can use fast search algorithm for the third num
+        Arrays.sort(nums);
         var results = new HashMap<Integer, HashMap<Integer, Integer>>();
 
         for (var i = 0; i < nums.length - 2; i++) {
@@ -43,16 +46,16 @@ public class ThreeSum {
                     continue;
                 }
 
-                for (var k = j + 1; k < nums.length; k++) {
-                    var third = nums[k];
-                    if (expectThird == third) {
-                        currentResult.put(second, third);
-                        break;
-                    }
+                if (Arrays.binarySearch(nums, j + 1, nums.length, expectThird) >= 0) {
+                    currentResult.put(second, expectThird);
                 }
             }
 
-            results.put(first, currentResult);
+            // only track not empty
+            if (!currentResult.isEmpty()) {
+                results.put(first, currentResult);
+            }
+
         }
 
         return results
