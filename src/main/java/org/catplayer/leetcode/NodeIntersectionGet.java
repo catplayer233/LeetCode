@@ -8,6 +8,11 @@ import java.util.HashSet;
 public class NodeIntersectionGet {
 
     public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+//        return getIntersectionNodeByHash(headA, headB);
+        return getIntersectionNodeByCursor(headA, headB);
+    }
+
+    private static ListNode getIntersectionNodeByHash(ListNode headA, ListNode headB) {
         var listNodes = new HashSet<ListNode>();
 
         var next = headA;
@@ -28,5 +33,21 @@ public class NodeIntersectionGet {
 
         // 满足的条件是: headA.next==headB.next
         return null;
+    }
+
+    private static ListNode getIntersectionNodeByCursor(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+
+        ListNode nextA = headA;
+        ListNode nextB = headB;
+
+        while (nextA != nextB) {
+            nextA = nextA == null ? headB : nextA.next;
+            nextB = nextB == null ? headA : nextB.next;
+        }
+
+        return nextA;
     }
 }
