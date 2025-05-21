@@ -15,6 +15,26 @@ public class ListNode {
         return next;
     }
 
+    public static ListNode buildNode(int... value) {
+        return buildNode(value, null);
+    }
+
+    // internal used, we don't concern empty array problem, at least has one element for testing
+    public static ListNode buildNode(int[] value, ListNode tailNode) {
+        var head = new ListNode(value[0]);
+
+        var next = head;
+        for (int i = 1; i < value.length; i++) {
+            next = next.next(new ListNode(value[i]));
+        }
+
+        if (tailNode != null) {
+            next.next(tailNode);
+        }
+
+        return head;
+    }
+
     @Override
     public String toString() {
         var stringBuilder = new StringBuilder("[");
